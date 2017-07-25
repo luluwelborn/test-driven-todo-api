@@ -21,6 +21,7 @@ var todos = [
   { _id: 3, task: 'Homework', description: 'Make this app super awesome!' }
 ];
 
+var newId = 4;
 /**********
  * ROUTES *
  **********/
@@ -44,11 +45,11 @@ app.get('/', function homepage(req, res) {
  * ORDER THAT THE TESTS DICTATE.
  */
 
-app.get('/api/todos/search', function search(req, res) {
+// app.get('/api/todos/search', function search(req, res) {
   /* This endpoint responds with the search results from the
    * query in the request. COMPLETE THIS ENDPOINT LAST.
    */
-});
+// });
 
 app.get('/api/todos', function index(req, res) {
     res.json({todos: todos});
@@ -58,6 +59,10 @@ app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
+  // the id is the newId aka 4
+  req.body._id = newId;
+  // newId has to become newId + 1 so it doesnt effect current array ids
+  newId = newId + 1;
   todos.push(req.body);
   res.json(req.body);
 });
@@ -66,12 +71,11 @@ app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)*/
   for (i = 0; i < todos.length; i++){
-    // var todo = todos[i].id;
     if (todos[i]._id == req.params.id){
       res.json(todos[i]);
     }
   }
-  res.json(req.body);
+  // res.json(req.body); ONLY NEED ONE RESPONSE
 });
 
 app.put('/api/todos/:id', function update(req, res) {
