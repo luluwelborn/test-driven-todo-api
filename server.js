@@ -65,13 +65,10 @@ app.post('/api/todos', function create(req, res) {
 app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)*/
-    // var todoNew = new todoNew(request.body);
   for (i = 0; i < todos.length; i++){
-    if (todos[i].id === req.params.id){
+    // var todo = todos[i].id;
+    if (todos[i]._id == req.params.id){
       res.json(todos[i]);
-    }
-    else {
-      (todos[i].id === null);
     }
   }
   res.json(req.body);
@@ -81,8 +78,12 @@ app.put('/api/todos/:id', function update(req, res) {
   /* This endpoint will update a single todo with the
    * id specified in the route parameter (:id) and respond
    * with the newly updated todo.*/
-   
-  todos[req.params._id-1]=req.body;
+  for (i = 0; i < todos.length; i++){
+    if (todos[i]._id == req.params.id){
+      res.json(todos[i]);
+      // response of updated todo
+    }
+  }
   res.json(req.body);
 });
 
