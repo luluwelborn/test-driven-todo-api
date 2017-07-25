@@ -16,9 +16,9 @@ app.use(express.static(__dirname + '/public'));
 
 // our database is an array for now with some hardcoded values
 var todos = [
-  // { _id: 1, task: 'Laundry', description: 'Wash clothes' },
-  // { _id: 2, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
-  // { _id: 3, task: 'Homework', description: 'Make this app super awesome!' }
+  { _id: 1, task: 'Laundry', description: 'Wash clothes' },
+  { _id: 2, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
+  { _id: 3, task: 'Homework', description: 'Make this app super awesome!' }
 ];
 
 /**********
@@ -51,34 +51,48 @@ app.get('/api/todos/search', function search(req, res) {
 });
 
 app.get('/api/todos', function index(req, res) {
-  /* This endpoint responds with all of the todos
-   */
+    res.json({todos: todos});
 });
 
 app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
+  todos.push(req.body);
+  res.json(req.body);
 });
 
 app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
-   * id specified in the route parameter (:id)
-   */
+   * id specified in the route parameter (:id)*/
+    // var todoNew = new todoNew(request.body);
+  for (i = 0; i < todos.length; i++){
+    if (todos[i].id === req.params.id){
+      res.json(todos[i]);
+    }
+    else {
+      (todos[i].id === null);
+    }
+  }
+  res.json(req.body);
 });
 
 app.put('/api/todos/:id', function update(req, res) {
   /* This endpoint will update a single todo with the
    * id specified in the route parameter (:id) and respond
-   * with the newly updated todo.
-   */
+   * with the newly updated todo.*/
+   
+  todos[req.params._id-1]=req.body;
+  res.json(req.body);
 });
 
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
    * id specified in the route parameter (:id) and respond
-   * with deleted todo.
-   */
+   * with deleted todo.*/
+   // splice() method changes the array by removing existing elements and/or adding new elements.
+  res.json({"todo":"deleted"});
+  todos.splice(req.params._id-1,1);
 });
 
 /**********
