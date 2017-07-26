@@ -83,21 +83,29 @@ app.put('/api/todos/:id', function update(req, res) {
    * id specified in the route parameter (:id) and respond
    * with the newly updated todo.*/
   for (i = 0; i < todos.length; i++){
-    if (todos[i]._id == req.params.id){
-      res.json(todos[i]);
+    var element = todos[i];
+    // if current element's id is the same as the ../# in the url request, then change value 
+    if (element._id == req.params.id){
+      element.task = req.body.task;
+      element.description = req.body.description;
+      res.json(element);
       // response of updated todo
     }
   }
-  res.json(req.body);
 });
 
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
-   * id specified in the route parameter (:id) and respond
-   * with deleted todo.*/
+   * id specified in the route parameter (:id) and respond with deleted todo.*/
    // splice() method changes the array by removing existing elements and/or adding new elements.
-  res.json({"todo":"deleted"});
-  todos.splice(req.params._id-1,1);
+  for (i = 0; i < todos.length; i++){
+    if (todos[i]._id == req.params.id){
+      var deleteTodo = todos[i];
+      todos.splice(i,1);
+      res.json(deleteTodo);
+    }
+  }
+
 });
 
 /**********
